@@ -1,0 +1,1 @@
+{% extends "base.html" %}{% block content %}<section class="container narrow section"><div class="form-card center"><h1>Delete notice?</h1><p>{{ notice.title }}</p><form method="post">{% csrf_token %}<button class="btn danger-bg">Delete permanently</button> <a class="btn ghost" href="{% url 'manage' %}">Cancel</a></form></div></section>{% endblock %}
