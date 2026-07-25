@@ -5,28 +5,40 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Security
+# --------------------------------------------------
+# SECURITY
+# --------------------------------------------------
+
 SECRET_KEY = os.environ.get(
     "SECRET_KEY",
-    "django-insecure-local-development-key"
+    "django-insecure-digital-notice-board-development-key",
 )
 
-DEBUG = os.environ.get("DEBUG", "True").lower() == "true"
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
     ".vercel.app",
+    "digital-notice-board-omega.vercel.app",
     "digital-notice-board-mu-flax.vercel.app",
+    "digital-notice-board-eta.vercel.app",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://*.vercel.app",
+    "https://digital-notice-board-omega.vercel.app",
     "https://digital-notice-board-mu-flax.vercel.app",
+    "https://digital-notice-board-eta.vercel.app",
 ]
 
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-# Applications
+
+# --------------------------------------------------
+# APPLICATIONS
+# --------------------------------------------------
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -38,9 +50,13 @@ INSTALLED_APPS = [
 ]
 
 
-# Middleware
+# --------------------------------------------------
+# MIDDLEWARE
+# --------------------------------------------------
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -53,11 +69,16 @@ MIDDLEWARE = [
 ROOT_URLCONF = "config.urls"
 
 
-# Templates
+# --------------------------------------------------
+# TEMPLATES
+# --------------------------------------------------
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
+        "DIRS": [
+            BASE_DIR / "templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -74,7 +95,10 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 
 
-# Database
+# --------------------------------------------------
+# DATABASE
+# --------------------------------------------------
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -83,33 +107,65 @@ DATABASES = {
 }
 
 
-# Password validation
+# --------------------------------------------------
+# PASSWORD VALIDATION
+# --------------------------------------------------
+
 AUTH_PASSWORD_VALIDATORS = []
 
 
-# Internationalization
+# --------------------------------------------------
+# LANGUAGE AND TIME
+# --------------------------------------------------
+
 LANGUAGE_CODE = "en-us"
+
 TIME_ZONE = "Asia/Kolkata"
+
 USE_I18N = True
+
 USE_TZ = True
 
 
-# Static files
+# --------------------------------------------------
+# STATIC FILES
+# --------------------------------------------------
+
 STATIC_URL = "/static/"
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 
-# Uploaded media
+
+# --------------------------------------------------
+# MEDIA FILES
+# --------------------------------------------------
+
 MEDIA_URL = "/media/"
+
 MEDIA_ROOT = BASE_DIR / "media"
 
 
-# Authentication redirects
+# --------------------------------------------------
+# LOGIN AND LOGOUT
+# --------------------------------------------------
+
 LOGIN_URL = "login"
+
 LOGIN_REDIRECT_URL = "dashboard"
+
 LOGOUT_REDIRECT_URL = "home"
 
 
