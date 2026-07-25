@@ -1,4 +1,4 @@
-# Premium Digital Notice Board
+# Digital Notice Board
 
 Full-stack Django website for schools and colleges.
 
